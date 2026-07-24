@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import ProgressRing from "./ProgressRing";
 import PresetButtons from "./PresetButtons";
 import Controls from "./Controls";
@@ -44,10 +45,10 @@ export default function Timer() {
 
   // Get color based on progress
   const getProgressColor = () => {
-    if (isFinished) return "#ef4444";
-    if (progress > 0.5) return "#10b981";
-    if (progress > 0.25) return "#f59e0b";
-    return "#ef4444";
+    if (isFinished) return "#ef4444"; // Red for finished
+    if (progress > 0.5) return "#a67436"; // SUT Gold
+    if (progress > 0.25) return "#f26522"; // SUT Orange
+    return "#ef4444"; // Red
   };
 
   // Play alert sound
@@ -228,8 +229,8 @@ export default function Timer() {
   const getStatusColor = () => {
     if (isFinished) return "text-red-400";
     if (isRunning) {
-      if (progress > 0.5) return "text-emerald-400";
-      if (progress > 0.25) return "text-amber-400";
+      if (progress > 0.5) return "text-accent-gold";
+      if (progress > 0.25) return "text-primary-400";
       return "text-red-400";
     }
     return "text-white/40";
@@ -357,21 +358,21 @@ export default function Timer() {
                 <button
                   id="btn-add-30s"
                   onClick={() => handleAddTime(30)}
-                  className="glass-btn text-sm px-3 py-2 text-emerald-300 border-emerald-400/20 hover:bg-emerald-400/10"
+                  className="glass-btn text-sm px-3 py-2 text-accent-gold border-accent-gold/20 hover:bg-accent-gold/10"
                 >
                   +30 วิ
                 </button>
                 <button
                   id="btn-add-1"
                   onClick={() => handleAddTime(60)}
-                  className="glass-btn text-sm px-3 py-2 text-emerald-300 border-emerald-400/20 hover:bg-emerald-400/10"
+                  className="glass-btn text-sm px-3 py-2 text-accent-gold border-accent-gold/20 hover:bg-accent-gold/10"
                 >
                   +1 นาที
                 </button>
                 <button
                   id="btn-add-5"
                   onClick={() => handleAddTime(300)}
-                  className="glass-btn text-sm px-3 py-2 text-emerald-300 border-emerald-400/20 hover:bg-emerald-400/10"
+                  className="glass-btn text-sm px-3 py-2 text-accent-gold border-accent-gold/20 hover:bg-accent-gold/10"
                 >
                   +5 นาที
                 </button>
@@ -396,7 +397,7 @@ export default function Timer() {
   return (
     <div
       ref={containerRef}
-      className="flex flex-col items-center gap-8 md:gap-10 w-full px-4"
+      className="flex flex-col items-center gap-4 md:gap-6 w-full px-4"
     >
       <audio ref={audioRef} preload="auto" />
 
@@ -414,11 +415,21 @@ export default function Timer() {
       </button>
 
       {/* Title */}
-      <div className="text-center animate-fade-in">
-        <h1 className="text-3xl md:text-5xl font-bold text-gradient mb-2">
+      <div className="text-center animate-fade-in flex flex-col items-center">
+        <Image 
+          src="/image/sut-logo.png" 
+          alt="SUT Logo" 
+          width={60} 
+          height={60} 
+          className="mb-2 drop-shadow-[0_0_15px_rgba(166,116,54,0.3)]" 
+        />
+        <div className="bg-accent-gold/20 text-accent-gold border border-accent-gold/30 px-3 py-1 rounded-full text-xs font-semibold tracking-widest mb-2 flex items-center gap-2 shadow-[0_0_15px_rgba(166,116,54,0.3)]">
+          <span>SURANAREE UNIVERSITY OF TECHNOLOGY</span>
+        </div>
+        <h1 className="text-2xl md:text-4xl font-bold text-gradient mb-1">
           Presentation Timer
         </h1>
-        <p className="text-white/40 text-sm md:text-base">
+        <p className="text-white/40 text-xs md:text-sm">
           จับเวลาการนำเสนอของคุณ
         </p>
       </div>
@@ -427,12 +438,12 @@ export default function Timer() {
       <div className="relative animate-fade-in">
         <ProgressRing
           progress={progress}
-          size={320}
+          size={260}
           strokeWidth={8}
           isFinished={isFinished}
         >
           <span
-            className={`text-6xl md:text-7xl font-bold tabular-nums tracking-tight transition-colors duration-500 ${
+            className={`text-5xl md:text-6xl font-bold tabular-nums tracking-tight transition-colors duration-500 ${
               isFinished ? "text-red-400 animate-blink" : "text-white"
             }`}
           >

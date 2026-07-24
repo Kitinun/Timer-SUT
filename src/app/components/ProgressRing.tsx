@@ -29,8 +29,8 @@ export default function ProgressRing({
   // Determine color based on progress
   const getColor = () => {
     if (isFinished) return { stroke: "#ef4444", glow: "glow-red" };
-    if (progress > 0.5) return { stroke: "#10b981", glow: "glow-green" };
-    if (progress > 0.25) return { stroke: "#f59e0b", glow: "glow-yellow" };
+    if (progress > 0.5) return { stroke: "#a67436", glow: "glow-gold" };
+    if (progress > 0.25) return { stroke: "#f26522", glow: "glow-orange" };
     return { stroke: "#ef4444", glow: "glow-red" };
   };
 

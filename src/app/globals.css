@@ -46,8 +46,8 @@
     @apply absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300;
     background: linear-gradient(
       135deg,
-      rgba(131, 56, 255, 0.2) 0%,
-      rgba(0, 245, 212, 0.1) 100%
+      rgba(242, 101, 34, 0.2) 0%,
+      rgba(166, 116, 54, 0.1) 100%
     );
   }
 
@@ -66,18 +66,18 @@
 
   /* Control Button */
   .control-btn {
-    @apply flex items-center justify-center gap-2.5 rounded-2xl px-8 py-4 text-lg font-bold
+    @apply flex items-center justify-center gap-2.5 rounded-2xl px-6 py-3 text-base font-bold
            transition-all duration-300 ease-out hover:scale-105 active:scale-95;
   }
 
   .control-btn-start {
-    @apply control-btn bg-gradient-to-r from-emerald-500 to-emerald-400 text-gray-950
-           shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40;
+    @apply control-btn bg-gradient-to-r from-accent-gold to-[#8f5f2b] text-white
+           shadow-lg shadow-accent-gold/30 hover:shadow-xl hover:shadow-accent-gold/40;
   }
 
   .control-btn-pause {
-    @apply control-btn bg-gradient-to-r from-amber-500 to-amber-400 text-gray-950
-           shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40;
+    @apply control-btn bg-gradient-to-r from-primary-500 to-primary-600 text-white
+           shadow-lg shadow-primary-500/30 hover:shadow-xl hover:shadow-primary-500/40;
   }
 
   .control-btn-reset {
@@ -92,10 +92,10 @@
   .animated-bg {
     background: linear-gradient(
       -45deg,
-      #0a0a1a,
-      #1a0a2e,
-      #0a1628,
-      #0d0d2b
+      #0a0502,
+      #1f0d05,
+      #120a05,
+      #0a0502
     );
     background-size: 400% 400%;
     animation: gradientShift 8s ease infinite;
@@ -104,16 +104,16 @@
   /* Text Gradient */
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #8338ff, #00f5d4);
+    background-image: linear-gradient(135deg, #f26522, #a67436);
   }
 
   /* Glow effects */
-  .glow-green {
-    filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.4));
+  .glow-gold {
+    filter: drop-shadow(0 0 20px rgba(166, 116, 54, 0.4));
   }
 
-  .glow-yellow {
-    filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
+  .glow-orange {
+    filter: drop-shadow(0 0 20px rgba(242, 101, 34, 0.4));
   }
 
   .glow-red {

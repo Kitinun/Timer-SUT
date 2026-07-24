@@ -14,22 +14,21 @@ const config: Config = {
       },
       colors: {
         primary: {
-          50: "#f0e7ff",
-          100: "#d4bcff",
-          200: "#b78eff",
-          300: "#9a5eff",
-          400: "#8338ff",
-          500: "#6d1fff",
-          600: "#5a0fd9",
-          700: "#4600b3",
-          800: "#33008c",
-          900: "#210066",
+          50: "#fef0ea",
+          100: "#fdddd0",
+          200: "#fbc0a8",
+          300: "#f99d79",
+          400: "#f67d4e",
+          500: "#f26522",
+          600: "#e44d0c",
+          700: "#be3d08",
+          800: "#963108",
+          900: "#782a09",
         },
         accent: {
-          cyan: "#00f5d4",
-          pink: "#f72585",
-          blue: "#3a86ff",
-          orange: "#fb5607",
+          gold: "#a67436",
+          orange: "#f26522",
+          gray: "#6d6e70",
         },
       },
       animation: {
@@ -43,8 +42,8 @@ const config: Config = {
       },
       keyframes: {
         glow: {
-          "0%": { boxShadow: "0 0 20px rgba(131, 56, 255, 0.3)" },
-          "100%": { boxShadow: "0 0 40px rgba(131, 56, 255, 0.6)" },
+          "0%": { boxShadow: "0 0 20px rgba(242, 101, 34, 0.3)" },
+          "100%": { boxShadow: "0 0 40px rgba(242, 101, 34, 0.6)" },
         },
         "ring-pulse": {
           "0%, 100%": { opacity: "1" },

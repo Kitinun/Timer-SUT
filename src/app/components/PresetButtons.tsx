@@ -35,14 +35,14 @@ export default function PresetButtons({
   };
 
   return (
-    <div className="glass-card p-6 md:p-8 animate-slide-up w-full max-w-2xl">
+    <div className="glass-card p-4 md:p-6 animate-slide-up w-full max-w-2xl">
       {/* Section Title */}
-      <h2 className="text-sm md:text-base font-semibold text-white/50 uppercase tracking-widest mb-5 text-center">
+      <h2 className="text-xs md:text-sm font-semibold text-white/50 uppercase tracking-widest mb-3 text-center">
         ⏱ ตั้งเวลา
       </h2>
 
       {/* Preset Grid */}
-      <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-6">
+      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-4">
         {PRESETS.map((preset) => (
           <button
             key={preset.seconds}
