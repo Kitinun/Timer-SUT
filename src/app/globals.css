@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Custom Base Styles ===== */
+@layer base {
+  body {
+    @apply bg-gray-950 text-white font-outfit antialiased;
+  }
+
+  *,
+  *::before,
+  *::after {
+    @apply box-border;
+  }
+}
+
+/* ===== Custom Component Styles ===== */
+@layer components {
+  /* Glassmorphism Card */
+  .glass-card {
+    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl;
+  }
+
+  .glass-card::before {
+    content: "";
+    @apply absolute inset-0 rounded-3xl;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 50%
+    );
+    pointer-events: none;
+  }
+
+  /* Glassmorphism Button */
+  .glass-btn {
+    @apply relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md
+           px-6 py-3 font-semibold text-white transition-all duration-300 ease-out
+           hover:bg-white/10 hover:border-white/20 hover:scale-105 hover:shadow-lg
+           active:scale-95;
+  }
+
+  .glass-btn::after {
+    content: "";
+    @apply absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300;
+    background: linear-gradient(
+      135deg,
+      rgba(131, 56, 255, 0.2) 0%,
+      rgba(0, 245, 212, 0.1) 100%
+    );
+  }
+
+  .glass-btn:hover::after {
+    @apply opacity-100;
+  }
+
+  /* Preset Button */
+  .preset-btn {
+    @apply glass-btn text-sm md:text-base px-4 py-2.5 md:px-6 md:py-3 rounded-xl;
+  }
+
+  .preset-btn.active {
+    @apply bg-primary-400/20 border-primary-400/40 text-primary-200 shadow-lg shadow-primary-500/20;
+  }
+
+  /* Control Button */
+  .control-btn {
+    @apply flex items-center justify-center gap-2.5 rounded-2xl px-8 py-4 text-lg font-bold
+           transition-all duration-300 ease-out hover:scale-105 active:scale-95;
+  }
+
+  .control-btn-start {
+    @apply control-btn bg-gradient-to-r from-emerald-500 to-emerald-400 text-gray-950
+           shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40;
+  }
+
+  .control-btn-pause {
+    @apply control-btn bg-gradient-to-r from-amber-500 to-amber-400 text-gray-950
+           shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40;
+  }
+
+  .control-btn-reset {
+    @apply control-btn border border-white/10 bg-white/5 backdrop-blur-md text-white/80
+           hover:bg-white/10 hover:text-white;
+  }
+}
+
+/* ===== Custom Utility Styles ===== */
+@layer utilities {
+  /* Animated Background */
+  .animated-bg {
+    background: linear-gradient(
+      -45deg,
+      #0a0a1a,
+      #1a0a2e,
+      #0a1628,
+      #0d0d2b
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+  }
+
+  /* Text Gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #8338ff, #00f5d4);
+  }
+
+  /* Glow effects */
+  .glow-green {
+    filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.4));
+  }
+
+  .glow-yellow {
+    filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
+  }
+
+  .glow-red {
+    filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.4));
+  }
+}
+
+/* ===== Keyframes ===== */
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
