@@ -2,8 +2,6 @@
 
 A professional, web-based presentation timer designed for **Suranaree University of Technology (SUT)**. This tool is built specifically for stage managers, event organizers, and MCs to manage time accurately during university events, conferences, and seminars.
 
-![SUT Timer Preview](public/image/sut-logo.png)
-
 ## ✨ Key Features
 
 This timer includes "Pro" and "Ultimate" features typically found in high-end broadcast software (like vMix or Stagetimer.io), but packaged in an easy-to-use web interface:
