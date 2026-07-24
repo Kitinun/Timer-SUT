@@ -80,14 +80,16 @@ export default function Controls({
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
+          fill="none"
           viewBox="0 0 24 24"
-          fill="currentColor"
+          strokeWidth={2}
+          stroke="currentColor"
           className="w-5 h-5"
         >
           <path
-            fillRule="evenodd"
-            d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903H16.5a.75.75 0 000 1.5h4.5a.75.75 0 00.75-.75v-4.5a.75.75 0 00-1.5 0v2.706l-1.903-1.903A9 9 0 013.306 9.67a.75.75 0 101.45.388zm14.49 3.882a7.5 7.5 0 01-12.548 3.364l-1.903-1.903H7.5a.75.75 0 000-1.5H3a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0v-2.706l1.903 1.903A9 9 0 0020.694 14.33a.75.75 0 10-1.45-.388z"
-            clipRule="evenodd"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
           />
         </svg>
         รีเซ็ต

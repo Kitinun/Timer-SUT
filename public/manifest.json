@@ -1,0 +1,23 @@
+{
+  "name": "SUT Presentation Timer",
+  "short_name": "SUT Timer",
+  "description": "Presentation Timer for Suranaree University of Technology",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0502",
+  "theme_color": "#A67436",
+  "icons": [
+    {
+      "src": "/image/sut-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/image/sut-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
