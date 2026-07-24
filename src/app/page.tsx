@@ -23,10 +23,10 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="relative z-10 mt-auto py-2 text-center space-y-1">
-        <p className="text-white/30 text-xs tracking-wider">
+        <p className="text-accent-gold/80 font-medium text-sm tracking-wider drop-shadow-md">
           พัฒนาโดย สถานส่งเสริมและพัฒนาระบบสารสนเทศเพื่อการจัดการ (สพส.)
         </p>
-        <p className="text-white/20 text-[11px] tracking-wide">
+        <p className="text-white/50 text-xs tracking-wide">
           Management Information System Development Unit (MIS)
         </p>
       </footer>

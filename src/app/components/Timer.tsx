@@ -37,6 +37,8 @@ export default function Timer() {
   const [prompterMessage, setPrompterMessage] = useState("");
   const [prompterInput, setPrompterInput] = useState("");
   const [isCountUp, setIsCountUp] = useState(false);
+  const [fsCustomMins, setFsCustomMins] = useState("");
+  const [fsCustomSecs, setFsCustomSecs] = useState("");
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -112,7 +114,7 @@ export default function Timer() {
             setIsFinished(true);
             if (!isMuted) playAlertSound();
           }
-          return Math.max(0, prev - 1);
+          return prev - 1;
         });
       }, 1000);
     }
@@ -122,7 +124,7 @@ export default function Timer() {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isRunning, playAlertSound, isMuted]);
+  }, [isRunning, playAlertSound, isMuted, isCountUp]);
 
   // Listen for fullscreen changes
   useEffect(() => {
@@ -211,12 +213,12 @@ export default function Timer() {
 
   // Handlers
   const handleStart = useCallback(() => {
-    if (timeLeft > 0) {
+    if (timeLeft > 0 || isCountUp) {
       setIsRunning(true);
       setHasStarted(true);
       setIsFinished(false);
     }
-  }, [timeLeft]);
+  }, [timeLeft, isCountUp]);
 
   const handlePause = useCallback(() => {
     setIsRunning(false);
@@ -366,16 +368,6 @@ export default function Timer() {
         <div className="absolute top-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
           <div className="text-white/30 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-widest font-mono">
             {realTime.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })}
-            {/* Count-up Mode Toggle */}
-            <button
-              onClick={toggleCountUp}
-              className={`glass-btn text-sm px-4 py-2 flex items-center gap-2 ${isCountUp ? "bg-accent-gold/20 text-accent-gold border-accent-gold/50" : "text-white/50 border-white/10"}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>{isCountUp ? "โหมดนับเดินหน้า" : "โหมดถอยหลัง"}</span>
-            </button>
           </div>
         </div>
 
@@ -488,20 +480,12 @@ export default function Timer() {
           >
             {formatTime(timeLeft)}
           </div>
-
-          {/* Status text */}
-          <div
-            className={`mt-4 font-medium transition-colors duration-500 ${getStatusColor()}`}
-            style={{ fontSize: `calc(${fontScale / 100} * 1.5rem)` }}
-          >
-            {getStatusText()}
-          </div>
         </div>
 
         {/* Prompter Message Display */}
         {prompterMessage && (
-          <div className="absolute top-24 left-0 right-0 z-[60] flex justify-center px-6 pointer-events-none animate-fade-in">
-            <div className="bg-red-600/95 text-white text-3xl sm:text-4xl md:text-5xl font-bold py-5 px-10 rounded-2xl shadow-[0_0_50px_rgba(220,38,38,1)] border-2 border-white/20 animate-pulse text-center tracking-wide max-w-5xl">
+          <div className="absolute top-28 left-1/2 -translate-x-1/2 z-[60] w-[90%] max-w-5xl pointer-events-none animate-fade-in flex justify-center">
+            <div className="bg-red-600/95 text-white text-3xl sm:text-4xl md:text-5xl font-bold py-5 px-10 rounded-2xl shadow-[0_0_50px_rgba(220,38,38,1)] border-2 border-white/20 animate-pulse text-center tracking-wide">
               {prompterMessage}
             </div>
           </div>
@@ -515,89 +499,98 @@ export default function Timer() {
               : "opacity-0 translate-y-4 pointer-events-none"
           }`}
         >
-          <div className="bg-gradient-to-t from-black/60 via-black/30 to-transparent pt-16 pb-6 px-6">
-            <div className="flex flex-col items-center gap-4 max-w-3xl mx-auto">
-              {/* Time Adjustment Buttons */}
-              <div className="flex items-center gap-2 md:gap-3 flex-wrap justify-center">
-                <button
-                  id="btn-sub-5"
-                  onClick={() => handleAddTime(-300)}
-                  className="glass-btn text-sm px-3 py-2 text-red-300 border-red-400/20 hover:bg-red-400/10"
-                >
-                  -5 นาที
-                </button>
-                <button
-                  id="btn-sub-1"
-                  onClick={() => handleAddTime(-60)}
-                  className="glass-btn text-sm px-3 py-2 text-red-300 border-red-400/20 hover:bg-red-400/10"
-                >
-                  -1 นาที
-                </button>
-                <button
-                  id="btn-sub-30s"
-                  onClick={() => handleAddTime(-30)}
-                  className="glass-btn text-sm px-3 py-2 text-red-300 border-red-400/20 hover:bg-red-400/10"
-                >
-                  -30 วิ
-                </button>
-
-                <div className="w-px h-8 bg-white/10 mx-1" />
-
-                <button
-                  id="btn-add-30s"
-                  onClick={() => handleAddTime(30)}
-                  className="glass-btn text-sm px-3 py-2 text-accent-gold border-accent-gold/20 hover:bg-accent-gold/10"
-                >
-                  +30 วิ
-                </button>
-                <button
-                  id="btn-add-1"
-                  onClick={() => handleAddTime(60)}
-                  className="glass-btn text-sm px-3 py-2 text-accent-gold border-accent-gold/20 hover:bg-accent-gold/10"
-                >
-                  +1 นาที
-                </button>
-                <button
-                  id="btn-add-5"
-                  onClick={() => handleAddTime(300)}
-                  className="glass-btn text-sm px-3 py-2 text-accent-gold border-accent-gold/20 hover:bg-accent-gold/10"
-                >
-                  +5 นาที
-                </button>
+          <div className="bg-gradient-to-t from-black/90 via-black/60 to-transparent pt-12 pb-4 px-4 w-full">
+            <div className="flex flex-col items-center gap-2 max-w-7xl mx-auto w-full">
+              
+              {/* Row 1: Time Adjustments & Custom Time & Controls */}
+              <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 w-full bg-black/40 backdrop-blur-md rounded-xl p-2 border border-white/10">
                 
-                <div className="w-px h-8 bg-white/10 mx-1" />
+                {/* Controls (Play/Pause/Reset) */}
+                <div className="scale-90 sm:scale-100 origin-center shrink-0">
+                  <Controls
+                    isRunning={isRunning}
+                    hasStarted={hasStarted}
+                    onStart={handleStart}
+                    onPause={handlePause}
+                    onReset={handleReset}
+                  />
+                </div>
 
-                {/* Count-up Mode Toggle */}
-                <button
-                  onClick={toggleCountUp}
-                  className={`glass-btn text-sm px-3 py-2 flex items-center gap-2 ${isCountUp ? "bg-accent-gold/20 text-accent-gold border-accent-gold/50" : "text-white/50 border-white/10"}`}
-                  title="สลับโหมดจับเวลาเดินหน้า"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>{isCountUp ? "เดินหน้า" : "นับถอยหลัง"}</span>
-                </button>
+                <div className="w-px h-6 bg-white/10 hidden md:block" />
+                
+                {/* Add/Subtract Time Buttons */}
+                <div className="flex items-center gap-1 shrink-0">
+                  <button onClick={() => handleAddTime(-300)} className="glass-btn text-xs sm:text-sm px-2 py-1.5 text-red-300 border-red-400/20 hover:bg-red-400/10">-5m</button>
+                  <button onClick={() => handleAddTime(-60)} className="glass-btn text-xs sm:text-sm px-2 py-1.5 text-red-300 border-red-400/20 hover:bg-red-400/10">-1m</button>
+                  <button onClick={() => handleAddTime(-30)} className="glass-btn text-xs sm:text-sm px-2 py-1.5 text-red-300 border-red-400/20 hover:bg-red-400/10">-30s</button>
+                  <div className="w-px h-4 bg-white/10 mx-1 hidden sm:block" />
+                  <button onClick={() => handleAddTime(30)} className="glass-btn text-xs sm:text-sm px-2 py-1.5 text-accent-gold border-accent-gold/20 hover:bg-accent-gold/10">+30s</button>
+                  <button onClick={() => handleAddTime(60)} className="glass-btn text-xs sm:text-sm px-2 py-1.5 text-accent-gold border-accent-gold/20 hover:bg-accent-gold/10">+1m</button>
+                  <button onClick={() => handleAddTime(300)} className="glass-btn text-xs sm:text-sm px-2 py-1.5 text-accent-gold border-accent-gold/20 hover:bg-accent-gold/10">+5m</button>
+                </div>
+
+                <div className="w-px h-6 bg-white/10 hidden lg:block" />
+
+                {/* Mode Toggle & Custom Time */}
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    onClick={toggleCountUp}
+                    className={`glass-btn text-xs sm:text-sm px-3 py-1.5 flex items-center gap-1 ${isCountUp ? "bg-accent-gold/20 text-accent-gold border-accent-gold/50" : "text-white/50 border-white/10"}`}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="hidden sm:inline">{isCountUp ? "เดินหน้า" : "ถอยหลัง"}</span>
+                  </button>
+
+                  <div className="flex items-center gap-1 bg-black/40 rounded-lg p-1 border border-white/10">
+                    <input
+                      type="number"
+                      min="0"
+                      value={fsCustomMins}
+                      onChange={(e) => setFsCustomMins(e.target.value)}
+                      placeholder="นาที"
+                      className="w-14 bg-transparent text-center text-sm text-white focus:outline-none"
+                    />
+                    <span className="text-white/50 text-xs">:</span>
+                    <input
+                      type="number"
+                      min="0"
+                      max="59"
+                      value={fsCustomSecs}
+                      onChange={(e) => setFsCustomSecs(e.target.value)}
+                      placeholder="วิ"
+                      className="w-12 bg-transparent text-center text-sm text-white focus:outline-none"
+                    />
+                    <button
+                      onClick={() => {
+                        const mins = parseInt(fsCustomMins, 10) || 0;
+                        const secs = parseInt(fsCustomSecs, 10) || 0;
+                        const totalSeconds = mins * 60 + secs;
+                        if (totalSeconds > 0) {
+                          handleSelectTime(totalSeconds);
+                          setFsCustomMins("");
+                          setFsCustomSecs("");
+                        }
+                      }}
+                      className="text-xs bg-accent-gold hover:bg-accent-gold/80 text-[#0a0502] font-semibold px-3 py-1.5 rounded transition-colors whitespace-nowrap ml-1"
+                    >
+                      ตั้งเวลา
+                    </button>
+                  </div>
+                </div>
+
               </div>
 
-              {/* Play / Pause / Reset */}
-              <Controls
-                isRunning={isRunning}
-                hasStarted={hasStarted}
-                onStart={handleStart}
-                onPause={handlePause}
-                onReset={handleReset}
-              />
-
-              {/* Fullscreen Prompter Input */}
-              <div className="w-full max-w-2xl mt-4 bg-black/40 backdrop-blur-md rounded-xl p-4 border border-white/10 flex flex-col gap-2 relative z-50">
-                <label className="text-white/60 text-xs font-medium flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3 text-red-400">
+              {/* Row 2: Prompter Input & Inline Footer */}
+              <div className="flex flex-col md:flex-row items-center justify-between w-full gap-2">
+                
+                {/* Fullscreen Prompter Input */}
+                <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md rounded-xl p-2 px-4 border border-white/10 flex-1 w-full max-w-4xl">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-red-400 shrink-0">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
                   </svg>
-                  ข้อความด่วนขึ้นจอ (สำหรับสเตจเมเนเจอร์)
-                </label>
-                <div className="flex gap-2">
+                  <span className="text-white/60 text-xs sm:text-sm whitespace-nowrap hidden sm:inline shrink-0">ข้อความด่วน:</span>
                   <input
                     type="text"
                     value={prompterInput}
@@ -608,11 +601,11 @@ export default function Timer() {
                       }
                     }}
                     placeholder="พิมพ์ข้อความ..."
-                    className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:border-red-500/50 transition-colors"
+                    className="flex-1 bg-transparent text-sm text-white focus:outline-none min-w-[150px]"
                   />
                   <button
                     onClick={() => setPrompterMessage(prompterInput)}
-                    className="bg-red-500 hover:bg-red-600 text-white font-medium px-4 py-1.5 rounded-lg transition-colors text-sm whitespace-nowrap"
+                    className="bg-red-500 hover:bg-red-600 text-white font-medium px-4 py-1.5 rounded transition-colors text-xs sm:text-sm whitespace-nowrap shrink-0"
                   >
                     ส่งข้อความ
                   </button>
@@ -622,23 +615,24 @@ export default function Timer() {
                         setPrompterMessage("");
                         setPrompterInput("");
                       }}
-                      className="bg-white/10 hover:bg-white/20 text-white/80 px-3 py-1.5 rounded-lg transition-colors text-sm whitespace-nowrap"
+                      className="bg-white/10 hover:bg-white/20 text-white/80 px-3 py-1.5 rounded transition-colors text-xs sm:text-sm whitespace-nowrap shrink-0"
                     >
                       ล้างจอ
                     </button>
                   )}
                 </div>
+
+                {/* Footer in Fullscreen (Inline, Compact) */}
+                <div className="text-right opacity-80 pointer-events-none hidden md:block shrink-0 pl-4">
+                  <p className="text-accent-gold/90 font-medium text-xs tracking-wider mb-0.5 drop-shadow-md">
+                    พัฒนาโดย สถานส่งเสริมและพัฒนาระบบสารสนเทศเพื่อการจัดการ (สพส.)
+                  </p>
+                  <p className="text-white/70 text-[10px] tracking-wide">
+                    Management Information System Development Unit (MIS)
+                  </p>
+                </div>
               </div>
 
-              {/* Footer in Fullscreen */}
-              <div className="text-center space-y-1 opacity-40 pointer-events-none mt-4">
-                <p className="text-white text-[10px] sm:text-xs tracking-wider">
-                  พัฒนาโดย สถานส่งเสริมและพัฒนาระบบสารสนเทศเพื่อการจัดการ (สพส.)
-                </p>
-                <p className="text-white text-[9px] sm:text-[11px] tracking-wide">
-                  Management Information System Development Unit (MIS)
-                </p>
-              </div>
             </div>
           </div>
         </div>

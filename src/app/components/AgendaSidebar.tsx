@@ -51,11 +51,11 @@ export default function AgendaSidebar({
     e.preventDefault();
     if (!newItemTitle.trim()) return;
 
-    let totalMinutes = 0;
+    let totalSeconds = 0;
     if (inputMode === "duration") {
       const hrs = parseInt(newItemHours, 10) || 0;
       const mins = parseInt(newItemMinutes, 10) || 0;
-      totalMinutes = hrs * 60 + mins;
+      totalSeconds = (hrs * 60 + mins) * 60;
     } else {
       if (!targetTime) return;
       const [tHrs, tMins] = targetTime.split(":").map(Number);
@@ -70,15 +70,15 @@ export default function AgendaSidebar({
         target.setDate(target.getDate() + 1);
       }
       
-      totalMinutes = Math.floor((target.getTime() - now.getTime()) / 60000);
+      totalSeconds = Math.floor((target.getTime() - now.getTime()) / 1000);
     }
 
-    if (totalMinutes <= 0) return;
+    if (totalSeconds <= 0) return;
 
     const newItem: AgendaItem = {
       id: Date.now().toString(),
       title: newItemTitle.trim(),
-      seconds: totalMinutes * 60,
+      seconds: totalSeconds,
     };
 
     setItems([...items, newItem]);
